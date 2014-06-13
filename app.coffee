@@ -1,4 +1,4 @@
-express = require('express')
+restify = require('restify')
 mongoose = require('mongoose')
 fs = require('fs')
 config = require('./config/config')
@@ -11,12 +11,12 @@ db.on 'error', () ->
 
 modelsPath = __dirname + '/app/models'
 fs.readdirSync(modelsPath).forEach (file) ->
-  require(modelsPath + '/' + file) if file.indexOf('.js') >= 0
+  require(modelsPath + '/' + file) if file.indexOf('.coffee') >= 0
 
-app = express()
+server = restify.createServer()
 
-require('./config/express')(app, config)
-require('./config/routes')(app)
+require('./config/restify')(server, config)
+require('./config/routes')(server)
 require('./config/jobs')(config)
 
-app.listen(config.port)
+server.listen(config.port)
