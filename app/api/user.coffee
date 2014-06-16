@@ -2,7 +2,7 @@ mongoose = require('mongoose')
 _ = require('lodash-node')
 User = mongoose.model('User')
 
-exports.getAll = (req,res,next) ->
+module.exports.getAll = (req,res,next) ->
   User.find (err,users) ->
     throw new Error(err) if err
     users = _.map users, (user) ->
