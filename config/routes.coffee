@@ -1,4 +1,4 @@
 module.exports = (server) -> 
-  user = require '../app/api/user'
-  server.get '/', user.getAll
+  movieApi = require '../app/api/movie'
+  server.get '/movie', movieApi.fetch
   

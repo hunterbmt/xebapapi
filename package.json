@@ -6,9 +6,11 @@
     "start": "app.js"
   },
   "dependencies": {
+    "URIjs": "^1.13.2",
     "agenda": "~0.6.15",
     "lodash-node": "^2.4.1",
     "mongoose": "~3.8.12",
+    "q": "^1.0.1",
     "restify": "^2.8.1"
   },
   "devDependencies": {

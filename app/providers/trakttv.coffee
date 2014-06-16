@@ -39,21 +39,21 @@ resizeImage = (imageUrl, width) ->
     uri.filename(file + '-' + width + '.' + ext).toString()
 
 formatResult = (items) ->
-    movies = {};
+    movies = {}
     _.each items, (movie) ->
-        imdb = movie.imdb_id.replace('tt','');
-        movie.image = resizeImage(movie.images.poster, '300');
-        movie.bigImage = movie.images.poster;
-        movie.backdrop = resizeImage(movie.images.fanart, '940');
-        movies[imdb] = movie;
-    movies;
+        imdb = movie.imdb_id
+        movie.cover = resizeImage(movie.images.poster, '300')
+        movie.bigImage = movie.images.poster
+        movie.backdrop = resizeImage(movie.images.fanart, '940')
+        movies[imdb] = movie
+    movies
 
 
-episodeDetail = (data) {
+episodeDetail = (data) ->
     deferred = Q.defer()
     slug = data.title.toLowerCase()
-        .replace(/[^\w ]+/g,'')
-        .replace(/ +/g,'-')
+        .replace /[^\w ]+/g, ''
+        .replace /\ +/g, '-'
 
     uri = API_ENDPOINT.clone()
         .segment [
@@ -66,13 +66,13 @@ episodeDetail = (data) {
             data.episode.toString()
             ]
     request {url: uri.toString(), json: true}, (error, response, data) ->
-        if error or !data or data.status === 'failure'
+        if error or !data or data.status is 'failure'
             deferred.reject(error)
         else
             deferred.resolve(data)
 
 module.exports.fetch = (imdbIds) ->
-    queryTorrents(imdbIds).then(formatResult)
+    querySummaries(imdbIds).then(formatResult)
 
 module.exports.episodeDetail = (data) ->
     episodeDetail(data)
